@@ -6,46 +6,43 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.learning.taskmanager.task_manager_rest_api.enums.TaskStatus;
+import com.learning.taskmanager.task_manager_rest_api.enums.ProjectStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-public class Task {
+public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String title;
+
+    private String name;
+
+    @Column(length = 1000)
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    private ProjectStatus status;
+
+    private Instant startDate;
+
+    private Instant endDate;
 
     @CreationTimestamp
     private Instant createdAt;
 
     @UpdateTimestamp
     private Instant updatedAt;
-
-    // Relationships
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
-
-    @ManyToOne
-    @JoinColumn(name = "assigned_to_id")
-    private User assignedTo;
 
 }

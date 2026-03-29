@@ -1,15 +1,16 @@
 package com.learning.taskmanager.task_manager_rest_api.dto;
 
-import java.util.UUID;
+import java.time.Instant;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateTaskDto {
-    private String title;
+public class CreateProjectDto {
+    private String name;
     private String description;
-    private UUID projectId;
-    private UUID assignedToId;
+    private Instant startDate;
+    private Instant endDate;
+
 }
