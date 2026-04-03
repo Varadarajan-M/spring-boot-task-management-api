@@ -1,8 +1,11 @@
 package com.learning.taskmanager.task_manager_rest_api.controller;
 
-import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.learning.taskmanager.task_manager_rest_api.dto.CreateTaskDto;
+import com.learning.taskmanager.task_manager_rest_api.dto.TaskFiltersDto;
 import com.learning.taskmanager.task_manager_rest_api.dto.TaskResponseDto;
 import com.learning.taskmanager.task_manager_rest_api.dto.UpdateTaskDto;
 import com.learning.taskmanager.task_manager_rest_api.service.TaskService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -31,14 +37,15 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TaskResponseDto>> getAllTasks() {
-        List<TaskResponseDto> tasks = this.taskService.getAllTasks();
+    public ResponseEntity<Page<TaskResponseDto>> getAllTasks(TaskFiltersDto filters,
+            @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<TaskResponseDto> tasks = this.taskService.getAllTasks(filters, pageable);
 
         return ResponseEntity.ok(tasks);
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponseDto> createTask(@RequestBody CreateTaskDto task) {
+    public ResponseEntity<TaskResponseDto> createTask(@Valid @RequestBody CreateTaskDto task) {
         TaskResponseDto savedTask = this.taskService.saveTask(task);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
@@ -52,7 +59,8 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TaskResponseDto> updateTaskById(@PathVariable UUID id, @RequestBody UpdateTaskDto taskDto) {
+    public ResponseEntity<TaskResponseDto> updateTaskById(@PathVariable UUID id,
+            @Valid @RequestBody UpdateTaskDto taskDto) {
         TaskResponseDto updatedTask = this.taskService.updateTaskById(id, taskDto);
         return ResponseEntity.ok(updatedTask);
     }
