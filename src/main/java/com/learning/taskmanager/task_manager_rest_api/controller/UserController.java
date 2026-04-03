@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.learning.taskmanager.task_manager_rest_api.dto.CreateUserDto;
+import com.learning.taskmanager.task_manager_rest_api.dto.UpdateUserDto;
 import com.learning.taskmanager.task_manager_rest_api.dto.UserResponseDto;
 import com.learning.taskmanager.task_manager_rest_api.service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -38,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody CreateUserDto userDto) {
+    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody CreateUserDto userDto) {
 
         UserResponseDto user = userService.createUser(userDto);
 
@@ -53,7 +56,8 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id, @RequestBody CreateUserDto userDto) {
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id,
+            @Valid @RequestBody UpdateUserDto userDto) {
         UserResponseDto updatedUser = userService.updateUserById(id, userDto);
         return ResponseEntity.ok(updatedUser);
     }

@@ -19,6 +19,8 @@ import com.learning.taskmanager.task_manager_rest_api.dto.ProjectResponseDto;
 import com.learning.taskmanager.task_manager_rest_api.dto.UpdateProjectDto;
 import com.learning.taskmanager.task_manager_rest_api.service.ProjectService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController {
@@ -38,7 +40,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<ProjectResponseDto> createProject(@RequestBody CreateProjectDto projectDto) {
+    public ResponseEntity<ProjectResponseDto> createProject(@Valid @RequestBody CreateProjectDto projectDto) {
         ProjectResponseDto project = projectService.createProject(projectDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(project);
@@ -53,7 +55,7 @@ public class ProjectController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ProjectResponseDto> updateProject(@PathVariable UUID id,
-            @RequestBody UpdateProjectDto projectDto) {
+            @Valid @RequestBody UpdateProjectDto projectDto) {
 
         ProjectResponseDto updatedProject = projectService.updateProject(id, projectDto);
 

@@ -36,10 +36,6 @@ public class ProjectService {
         Instant startDate = projectDto.getStartDate();
         Instant endDate = projectDto.getEndDate();
 
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Project name cannot be null or empty.");
-        }
-
         if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
             throw new IllegalArgumentException("Start date cannot be after end date.");
         }

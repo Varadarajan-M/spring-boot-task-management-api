@@ -4,19 +4,17 @@ import java.util.UUID;
 
 import com.learning.taskmanager.task_manager_rest_api.enums.TaskStatus;
 
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateTaskDto {
+public class TaskFiltersDto {
 
-    @Size(min = 1, max = 255, message = "Task title must be between 1 and 255 characters")
-    private String title;
-
-    private String description;
     private TaskStatus status;
     private UUID assignedToId;
     private UUID projectId;
+    // private String search;
+    // private Instant createdAfter;
+    // private Instant createdBefore;
 }

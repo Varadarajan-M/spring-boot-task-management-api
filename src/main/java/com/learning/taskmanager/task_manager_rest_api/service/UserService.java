@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.learning.taskmanager.task_manager_rest_api.dto.CreateUserDto;
+import com.learning.taskmanager.task_manager_rest_api.dto.UpdateUserDto;
 import com.learning.taskmanager.task_manager_rest_api.dto.UserResponseDto;
 import com.learning.taskmanager.task_manager_rest_api.entity.User;
 import com.learning.taskmanager.task_manager_rest_api.exception.NotFoundException;
@@ -25,10 +26,6 @@ public class UserService {
         User user = new User();
 
         String email = userDto.getEmail();
-
-        if (email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email is required");
-        }
 
         user.setName(userDto.getName());
         user.setEmail(email);
@@ -52,14 +49,14 @@ public class UserService {
 
     // Use UpdateUserDto instead of CreateUserDto when introducing new fields that
     // are not required during user creation.
-    public UserResponseDto updateUserById(UUID userId, CreateUserDto userDto) {
+    public UserResponseDto updateUserById(UUID userId, UpdateUserDto userDto) {
         User existingUser = getUserEntityById(userId);
 
         if (userDto.getName() != null) {
             existingUser.setName(userDto.getName());
         }
 
-        if (userDto.getEmail() != null && !userDto.getEmail().isEmpty()) {
+        if (userDto.getEmail() != null) {
             existingUser.setEmail(userDto.getEmail());
         }
 

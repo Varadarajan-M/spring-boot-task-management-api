@@ -1,20 +1,17 @@
 package com.learning.taskmanager.task_manager_rest_api.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateUserDto {
+public class UpdateUserDto {
 
-    @NotBlank(message = "Name cannot be blank")
     @Size(min = 2, message = "Name must be at least 2 characters long")
     private String name;
 
-    @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     private String email;
 }
